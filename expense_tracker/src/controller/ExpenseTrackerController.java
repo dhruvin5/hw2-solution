@@ -52,6 +52,7 @@ public class ExpenseTrackerController {
     return true;
   }
 
+  // this function removes the selected row from the table
    public void removeTransaction(int selectedRowID) {
     List<Transaction> transactions = model.getTransactions();
     Transaction t = transactions.get(selectedRowID);

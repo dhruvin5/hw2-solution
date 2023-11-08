@@ -111,11 +111,14 @@ public class TestExample {
         assertEquals(initialtotalCost+amount, getTotalCost(), 0.01);
     }
 
+
+    // testcase to check for InvalidInput Handling
     @Test
     public void testInvalidInputHandling() {
-        // Pre-condition: List of transactions is empty
+        // Pre-condition: Get the initial List
         List<Transaction>transactions = model.getTransactions();
-        double InittialtotalCost = getTotalCost();
+        // Pre-condition: Get the initial Cost
+        double initialCost = getTotalCost();
     
         // Perform the action: Add an invalid transaction with invalid amount less than 0
 	    double test_amount_1 = -50;
@@ -125,14 +128,15 @@ public class TestExample {
             model.addTransaction(test_addedTransaction_1);
         }catch(IllegalArgumentException e)
         {
+            // check if the system throws an error
             assertEquals("The amount is not valid.", e.getMessage());
         }
        
-        // Pre-condition: List of transactions contains only
-	//                the added transaction
+       //check if there is no change in the transaction list and cost after adding the invalid transaction
        assertEquals(transactions, model.getTransactions());
-       assertEquals(InittialtotalCost,getTotalCost(),0.01);
+       assertEquals(initialCost,getTotalCost(),0.01);
 
+         // Perform the action: Add an invalid transaction with invalid amount greater than 1000
         double test_amount_2 = 1001;
 	    String test_category_2 = "food";
         try{
@@ -140,12 +144,15 @@ public class TestExample {
             model.addTransaction(test_addedTransaction_2);
         }catch(IllegalArgumentException e)
         {
+             // check if the system throws an error
             assertEquals("The amount is not valid.", e.getMessage());
         }
 
+        //check if there is no change in the transaction list and cost after adding the invalid transaction
         assertEquals(transactions, model.getTransactions());
-        assertEquals(InittialtotalCost,getTotalCost(),0.01);
+        assertEquals(initialCost,getTotalCost(),0.01);
 
+        // Perform the action: Add an invalid transaction with invalid amount equal to zero
         double test_amount_3 = 0;
 	    String test_category_3 = "food";
        try{
@@ -153,12 +160,15 @@ public class TestExample {
             model.addTransaction(test_addedTransaction_3);
         }catch(IllegalArgumentException e)
         {
+             // check if the system throws an error
             assertEquals("The amount is not valid.", e.getMessage());
         }
 
+         //check if there is no change in the transaction list and cost after adding the invalid transaction
         assertEquals(transactions, model.getTransactions());
-        assertEquals(InittialtotalCost,getTotalCost(),0.01);
+        assertEquals(initialCost,getTotalCost(),0.01);
 
+          // Perform the action: Add an invalid transaction with invalid category with no category mentioned
         double test_amount_4 = 500;
 	    String test_category_4 = "   ";
         try{
@@ -166,12 +176,15 @@ public class TestExample {
             model.addTransaction(test_addedTransaction_4);
         }catch(IllegalArgumentException e)
         {
+             // check if the system throws an error
             assertEquals("The category is not valid.", e.getMessage());
         }
-
+         //check if there is no change in the transaction list and cost after adding the invalid transaction
         assertEquals(transactions, model.getTransactions());
-        assertEquals(InittialtotalCost,getTotalCost(),0.01);
+        assertEquals(initialCost,getTotalCost(),0.01);
 
+
+         // Perform the action: Add an invalid transaction with invalid category with category as numerical 
         double test_amount_5 = 500;
 	    String test_category_5 = "0123";
        try{
@@ -179,11 +192,32 @@ public class TestExample {
             model.addTransaction(test_addedTransaction_5);
         }catch(IllegalArgumentException e)
         {
+             // check if the system throws an error
             assertEquals("The category is not valid.", e.getMessage());
         }
 
+        //check if there is no change in the transaction list and cost after adding the invalid transaction
         assertEquals(transactions, model.getTransactions());
-        assertEquals(InittialtotalCost,getTotalCost(),0.01);
+        assertEquals(initialCost,getTotalCost(),0.01);
+
+
+        // Perform the action: Add an invalid transaction with invalid category with category not mentioned in the valid category set
+        double test_amount_6 = 500;
+	    String test_category_6 = "umass";
+       try{
+            Transaction test_addedTransaction_6 = new Transaction(test_amount_6,test_category_6);
+            model.addTransaction(test_addedTransaction_6);
+        }catch(IllegalArgumentException e)
+        {
+             // check if the system throws an error
+            assertEquals("The category is not valid.", e.getMessage());
+        }
+
+        //check if there is no change in the transaction list and cost after adding the invalid transaction
+        assertEquals(transactions, model.getTransactions());
+        assertEquals(initialCost,getTotalCost(),0.01);
+
+
     }
 
 

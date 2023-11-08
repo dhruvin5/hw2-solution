@@ -74,12 +74,15 @@ public class ExpenseTrackerApp {
     view.toFront();
    }});
 
+   // Listen to all the row selection in the table
    view.addTableSelectionListener(e->
    {
     
     if (!e.getValueIsAdjusting()) {
 
       int selectedRow = view.getTable().getSelectedRow();
+
+      // if no row is selected or if the last row that is the TOTAL COUNT ROW is selected we do not change the selectedRow variable
       if (selectedRow != -1 && view.getTable().getRowCount()!=selectedRow+1) {
         view.setSelectedRowIndex(selectedRow);
         view.getUndoBtn().setEnabled(true);
@@ -91,6 +94,7 @@ public class ExpenseTrackerApp {
     }
    });
 
+   // added the undo listener which will call the controller when the button is clicked
     view.addApplyUndoListener(e -> {
       try{
       int selectedRowId = view.getSelectedRowIndex();

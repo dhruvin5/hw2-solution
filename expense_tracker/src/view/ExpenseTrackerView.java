@@ -29,8 +29,10 @@ public class ExpenseTrackerView extends JFrame {
   private JTextField amountFilterField;
   private JButton amountFilterBtn;
 
-  
+  //Added undo button
   private JButton undoBtn;
+
+  // this private variable is to store which row is selected for undo
   private int selectedRow;
   
   public ExpenseTrackerView() {
@@ -68,10 +70,13 @@ public class ExpenseTrackerView extends JFrame {
     amountFilterBtn = new JButton("Filter by Amount");
   
     undoBtn = new JButton("Undo Transaction");
+    // initially disable the undo button
     undoBtn.setEnabled(false);
+    // initial no selected row is present hence -1
     selectedRow = -1;
 
-    //undo functionality
+    //undo functionality 
+    // set the selection mode to single selection(only one row can be selected for undo)
     transactionsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   
     // Layout components
@@ -97,16 +102,6 @@ public class ExpenseTrackerView extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
 
-   /*  transactionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-      
-    }
-    });
-    */
-
-  
-  
   }
 
   public DefaultTableModel getTableModel() {
@@ -144,6 +139,7 @@ public class ExpenseTrackerView extends JFrame {
     categoryFilterBtn.addActionListener(listener);
   }
 
+  //apply the undo listener for undo action
   public void addApplyUndoListener(ActionListener listener) {
     undoBtn.addActionListener(listener);
   }
@@ -152,14 +148,22 @@ public class ExpenseTrackerView extends JFrame {
     undoBtn.addActionListener(listener);
   }
   
+  // add table selection listener which would listen to all the selection in the table
   public void addTableSelectionListener(ListSelectionListener listener)
   {
     transactionsTable.getSelectionModel().addListSelectionListener(listener);
   }
 
+  // setter function for selectedrow
   public void setSelectedRowIndex(int selectedRow)
   {
     this.selectedRow=selectedRow;
+  }
+
+  //getter function for selectedrow
+   public int getSelectedRowIndex()
+  {
+    return this.selectedRow;
   }
 
   public String getCategoryFilterInput() {
@@ -184,10 +188,7 @@ public class ExpenseTrackerView extends JFrame {
     }
   }
 
-  public int getSelectedRowIndex()
-  {
-    return this.selectedRow;
-  }
+ 
 
   public void refreshTable(List<Transaction> transactions) {
       // Clear existing rows
