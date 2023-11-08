@@ -1,6 +1,8 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,13 +25,16 @@ public class ExpenseTrackerView extends JFrame {
   // private JTextField dateFilterField;
   private JTextField categoryFilterField;
   private JButton categoryFilterBtn;
-
+  
   private JTextField amountFilterField;
   private JButton amountFilterBtn;
 
   
-
+  private JButton undoBtn;
+  private int selectedRow;
+  
   public ExpenseTrackerView() {
+
     setTitle("Expense Tracker"); // Set title
     setSize(600, 400); // Make GUI larger
 
@@ -62,7 +67,12 @@ public class ExpenseTrackerView extends JFrame {
     amountFilterField = new JTextField(10);
     amountFilterBtn = new JButton("Filter by Amount");
   
+    undoBtn = new JButton("Undo Transaction");
+    undoBtn.setEnabled(false);
+    selectedRow = -1;
 
+    //undo functionality
+    transactionsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   
     // Layout components
     JPanel inputPanel = new JPanel();
@@ -75,6 +85,7 @@ public class ExpenseTrackerView extends JFrame {
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(amountFilterBtn);
     buttonPanel.add(categoryFilterBtn);
+    buttonPanel.add(undoBtn);
   
     // Add panels to frame
     add(inputPanel, BorderLayout.NORTH);
@@ -85,6 +96,15 @@ public class ExpenseTrackerView extends JFrame {
     setSize(600, 400); // Increase the size for better visibility
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
+
+   /*  transactionsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+      
+    }
+    });
+    */
+
   
   
   }
@@ -94,8 +114,8 @@ public class ExpenseTrackerView extends JFrame {
   }
     
 
-  public JTable getTransactionsTable() {
-    return transactionsTable;
+  public List<Transaction> getTransactionsTable() {
+    return (List<Transaction>) transactionsTable;
   }
 
   public double getAmountField() {
@@ -124,9 +144,29 @@ public class ExpenseTrackerView extends JFrame {
     categoryFilterBtn.addActionListener(listener);
   }
 
+  public void addApplyUndoListener(ActionListener listener) {
+    undoBtn.addActionListener(listener);
+  }
+
+  public void addEnableDisableUndoListener(ActionListener listener) {
+    undoBtn.addActionListener(listener);
+  }
+  
+  public void addTableSelectionListener(ListSelectionListener listener)
+  {
+    transactionsTable.getSelectionModel().addListSelectionListener(listener);
+  }
+
+  public void setSelectedRowIndex(int selectedRow)
+  {
+    this.selectedRow=selectedRow;
+  }
+
   public String getCategoryFilterInput() {
     return JOptionPane.showInputDialog(this, "Enter Category Filter:");
 }
+
+
 
 
   public void addApplyAmountFilterListener(ActionListener listener) {
@@ -142,6 +182,11 @@ public class ExpenseTrackerView extends JFrame {
         // You can show an error message or return a default value
         return 0.0; // Default value (or any other appropriate value)
     }
+  }
+
+  public int getSelectedRowIndex()
+  {
+    return this.selectedRow;
   }
 
   public void refreshTable(List<Transaction> transactions) {
@@ -172,6 +217,15 @@ public class ExpenseTrackerView extends JFrame {
   public JButton getAddTransactionBtn() {
     return addTransactionBtn;
   }
+
+  public JButton getUndoBtn() {
+    return undoBtn;
+  }
+
+  public JTable getTable()
+  {
+    return transactionsTable;
+  } 
 
 
   public void highlightRows(List<Integer> rowIndexes) {

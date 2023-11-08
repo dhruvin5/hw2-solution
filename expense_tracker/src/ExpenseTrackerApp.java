@@ -1,5 +1,9 @@
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import controller.ExpenseTrackerController;
+import javafx.event.ActionEvent;
 import model.ExpenseTrackerModel;
 import view.ExpenseTrackerView;
 import model.Filter.AmountFilter;
@@ -38,6 +42,8 @@ public class ExpenseTrackerApp {
       }
     });
 
+    
+
       // Add action listener to the "Apply Category Filter" button
     view.addApplyCategoryFilterListener(e -> {
       try{
@@ -67,7 +73,37 @@ public class ExpenseTrackerApp {
     JOptionPane.showMessageDialog(view,exception.getMessage());
     view.toFront();
    }});
+
+   view.addTableSelectionListener(e->
+   {
     
+    if (!e.getValueIsAdjusting()) {
+
+      int selectedRow = view.getTable().getSelectedRow();
+      if (selectedRow != -1 && view.getTable().getRowCount()!=selectedRow+1) {
+        view.setSelectedRowIndex(selectedRow);
+        view.getUndoBtn().setEnabled(true);
+      }
+
+      else{
+        view.getUndoBtn().setEnabled(false);
+      }
+    }
+   });
+
+    view.addApplyUndoListener(e -> {
+      try{
+      int selectedRowId = view.getSelectedRowIndex();
+      if(selectedRowId != -1)
+      {
+        controller.removeTransaction(selectedRowId);
+      }  
+    }catch(IllegalArgumentException exception) {
+    JOptionPane.showMessageDialog(view,exception.getMessage());
+    view.toFront();
+   }});
+    
+ 
 
   }
 }

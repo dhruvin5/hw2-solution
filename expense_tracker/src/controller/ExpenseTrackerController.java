@@ -52,6 +52,13 @@ public class ExpenseTrackerController {
     return true;
   }
 
+   public void removeTransaction(int selectedRowID) {
+    List<Transaction> transactions = model.getTransactions();
+    Transaction t = transactions.get(selectedRowID);
+    model.removeTransaction(t);
+    refresh();
+  }
+
   public void applyFilter() {
     //null check for filter
     if(filter!=null){
