@@ -40,7 +40,7 @@ If the `category` field contains a valid input, transactions matching that categ
 
 #### Undo Transactions
 
-The user can remove transactions in the application by selecting a single row from the Transaction list and clicking on the `Undo Transaction` button. 
+The user can remove transactions from the transaction list by selecting a single row from the Transaction list and clicking on the `Undo Transaction` button. 
 
-If the user has `not selected any valid row` the undo button will remain `disabled`.
+If the user has `not selected any valid row`, the undo button will remain `disabled`.
 
