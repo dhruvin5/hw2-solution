@@ -1,6 +1,4 @@
 import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import controller.ExpenseTrackerController;
 import model.ExpenseTrackerModel;
