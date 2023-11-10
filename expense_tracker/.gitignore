@@ -6,6 +6,7 @@ bin/
 application.properties
 
 # Ignore IDE files 
+.vscode
 .idea/
 *.iml
 *.class
