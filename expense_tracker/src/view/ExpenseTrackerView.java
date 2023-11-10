@@ -109,8 +109,8 @@ public class ExpenseTrackerView extends JFrame {
   }
     
 
-  public List<Transaction> getTransactionsTable() {
-    return (List<Transaction>) transactionsTable;
+  public JTable getTransactionsTable() {
+    return transactionsTable;
   }
 
   public double getAmountField() {
@@ -141,10 +141,6 @@ public class ExpenseTrackerView extends JFrame {
 
   //apply the undo listener for undo action
   public void addApplyUndoListener(ActionListener listener) {
-    undoBtn.addActionListener(listener);
-  }
-
-  public void addEnableDisableUndoListener(ActionListener listener) {
     undoBtn.addActionListener(listener);
   }
   
@@ -223,12 +219,6 @@ public class ExpenseTrackerView extends JFrame {
     return undoBtn;
   }
 
-  public JTable getTable()
-  {
-    return transactionsTable;
-  } 
-
-
   public void highlightRows(List<Integer> rowIndexes) {
       // The row indices are being used as hashcodes for the transactions.
       // The row index directly maps to the the transaction index in the list.
@@ -247,6 +237,12 @@ public class ExpenseTrackerView extends JFrame {
       });
 
       transactionsTable.repaint();
+  }
+
+  public Color getCellBackgroundColor(int row, int column) {
+    DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) transactionsTable.getCellRenderer(row, column);
+    Component c = transactionsTable.prepareRenderer(renderer, row, column);
+    return c.getBackground();
   }
 
 
